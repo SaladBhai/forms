@@ -1,0 +1,26 @@
+name: Unzip Uploaded File
+
+on:
+  push:
+    paths:
+      - 'MyProject.zip'  # Only run when this file is changed
+
+jobs:
+  unzip:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Unzip MyProject.zip
+      run: |
+        unzip -o MyProject.zip -d .
+    
+    - name: Commit unzipped files
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add .
+        git commit -m "Unzipped MyProject.zip"
+        git push
